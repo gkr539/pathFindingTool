@@ -8,8 +8,8 @@ Steps to run:
 4. Use following keys to select respective algorithm.
 
     a. space bar - A search* algorithm
-    b.         k - Dijkstra's algorithm
-    c.         d - DFS traversal
+    b.       "k" - Dijkstra's algorithm
+    c.       "d" - DFS traversal
     
 5. press c to clear the grid.
 
