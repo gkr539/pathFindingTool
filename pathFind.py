@@ -1,7 +1,9 @@
 import pygame
 import math
 import queue
-
+import collections
+import heapq
+#from collections import heapq
 WIDTH = 400
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Path Finding Alg")
@@ -135,12 +137,51 @@ def get_clicked_pos(pos, rows, width):
 
 #it finds shortest path to every node
 def dijkstra(draw, grid, start, end):
+    heap = []
+    distance = {}
+    distance[start] = 0
+    visited = {}
+    came_from = {}
+
+    heapq.heappush(heap, (0,start))
+    while heap:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        dis, node = heapq.heappop(heap)
+        visited[node] = True
+        if node == end:
+            reconstruct_path(came_from, end, draw)
+            end.make_end()
+            start.make_start()
+            return
+        for nei in node.nei:
+            if nei in visited:
+                continue
+            newD = distance.get(node,float('inf')) + 1
+            if newD < distance.get(nei, float('inf')):
+                came_from[nei] = node
+                distance[nei] = newD
+                heapq.heappush(heap, (newD, nei))
+                nei.make_open()
+        draw()
+        if node != start:
+            node.make_closed()
+    #reconstruct_path(came_from, end, draw)
+
+
+
+
+
+
+
+
+def bfsTraversal(draw, grid, start, end):
     pass
 
 def dfsTraversal(draw, grid, start, end):
     visited = set()
     ans = []
-
     stack = []
     stack.append(start)
     while stack:
@@ -272,15 +313,17 @@ def main(win,width):
                         for spot in row:
                             spot.update_neighbours(grid)
                     dfsTraversal(lambda : draw(win, grid, ROWS, width), grid, start, end)
+                elif event.key == pygame.K_k and start and end:
+                    for row in grid:
+                        for spot in row:
+                            spot.update_neighbours(grid)
+                    dijkstra(lambda : draw(win, grid, ROWS, width), grid, start, end)
+                    #dfsTraversal(lambda : draw(win, grid, ROWS, width), grid, start, end)
 
                 if event.key == pygame.K_c:
                     start = None
                     end = None
                     grid = make_grid(ROWS, width)
-
-
-
-
 
 
     pygame.quit()
