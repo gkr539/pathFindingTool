@@ -7,7 +7,7 @@ Steps to run:
 3. Draw barriers.
 4. Use following keys to select respective algorithm.
 
-    a. space bar - A search* algorithm
+    a. space bar - A* search algorithm
     b.       "k" - Dijkstra's algorithm
     c.       "d" - DFS traversal
     
